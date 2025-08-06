@@ -1,4 +1,5 @@
 import 'package:calley_app/screens/lang_screen.dart';
+import 'package:calley_app/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calley App',
       debugShowCheckedModeBanner: false,
-      home: LangScreen(),
+      home: SignupScreen(),
     );
   }
 }

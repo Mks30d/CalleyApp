@@ -60,8 +60,6 @@ class _LangScreenState extends State<LangScreen> {
           },
         ),
       ),
-
-      bottomNavigationBar: CustomButton("Select", context),
     );
   }
 }
