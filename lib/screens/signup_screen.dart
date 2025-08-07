@@ -46,8 +46,11 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Column(
           children: [
             Container(
-              color: greyShadeColor,
               height: 120,
+              decoration: BoxDecoration(
+                color: greyShadeColor,
+                border: Border(bottom: BorderSide(color: Colors.grey)),
+              ),
               child: Transform.scale(
                 scale: 0.9,
                 child: Image(image: AssetImage("lib/assets/logo1.png")),
@@ -134,65 +137,65 @@ class _SignupScreenState extends State<SignupScreen> {
                         return null;
                       },
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Spacer(),
-                        Transform.scale(
-                          scale: 0.8,
-                          child: Checkbox(
-                            value: isChecked,
-                            onChanged: (value) {
-                              setState(() {
-                                isChecked = value!;
-                                print(isChecked);
-                              });
-                            },
-                          ),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            text: 'I agree to the ',
-                            style: Theme.of(context).textTheme.titleMedium,
-                            children: [
-                              TextSpan(
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    print("clicked");
-                                  },
-                                text: 'Terms and Conditions',
-                                style: TextStyle(color: primaryColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // const SizedBox(width: 19,),
-                        Spacer(),
-                      ],
-                    ),
-                    // Spacer(),
-                    SizedBox(height: 8),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Already have an account? ',
-                        style: Theme.of(context).textTheme.titleMedium,
-                        children: [
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                print("clicked");
-                              },
-                            text: 'Sign In',
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Spacer(),
+                Transform.scale(
+                  scale: 0.8,
+                  child: Checkbox(
+                    value: isChecked,
+                    onChanged: (value) {
+                      setState(() {
+                        isChecked = value!;
+                        print(isChecked);
+                      });
+                    },
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'I agree to the ',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    children: [
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            print("clicked");
+                          },
+                        text: 'Terms and Conditions',
+                        style: TextStyle(color: primaryColor),
+                      ),
+                    ],
+                  ),
+                ),
+                // const SizedBox(width: 19,),
+                Spacer(),
+              ],
+            ),
+            // Spacer(),
+            SizedBox(height: 8),
+            RichText(
+              text: TextSpan(
+                text: 'Already have an account? ',
+                style: Theme.of(context).textTheme.titleMedium,
+                children: [
+                  TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        print("clicked");
+                      },
+                    text: 'Sign In',
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
