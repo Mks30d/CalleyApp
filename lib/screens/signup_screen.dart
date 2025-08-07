@@ -16,18 +16,18 @@ class SignupScreen extends StatefulWidget {
 }
 
 final mobileController = TextEditingController(text: "1234567890");
+final emailController = TextEditingController(text: "mks@gmail.com");
 
 class _SignupScreenState extends State<SignupScreen> {
   final nameController = TextEditingController(text: "Mks");
-  final emailController = TextEditingController(text: "mks@gmail.com");
   final passwordController = TextEditingController(text: "123");
   final whatsappController = TextEditingController(text: "+91");
   bool isChecked = true;
   final _formKey = GlobalKey<FormState>();
+  final apiService = ApiService();
 
   void _onSignup() async {
-    final api = ApiService();
-    final response = await api.signUp(
+    final response = await apiService.signUp(
       nameController.text,
       emailController.text,
       passwordController.text,
@@ -56,6 +56,8 @@ class _SignupScreenState extends State<SignupScreen> {
         context,
       ).showSnackBar(SnackBar(content: Text("${data["message"]}")));
     }
+    // _onGenerateOtp();
+    apiService.onGenerateOtp(emailController.text, context);
   }
 
   @override

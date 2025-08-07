@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 const String baseUrl = 'https://mock-api.calleyacd.com/api';
@@ -29,6 +30,42 @@ class ApiService {
       headers: {'Content-Type': 'application/json'},
     );
     return response;
+  }
+
+  // Generate OTP
+  Future<http.Response> generateOtp(String email) {
+    final uri = Uri.parse("$baseUrl/auth/send-otp");
+    final response = http.post(
+      uri,
+      body: json.encode({'email': email}),
+      headers: {'Content-Type': 'application/json'},
+    );
+    return response;
+  }
+
+  // calling Generate OTP
+  void onGenerateOtp(String email, BuildContext context) async {
+    final response = await generateOtp(email);
+    var data = jsonDecode(response.body.toString());
+
+    if (response.statusCode == 200) {
+      print(
+        "generateOtpResponse success: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${data["message"]}"),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      print(
+        "generateOtpResponse error!!: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("${data["message"]}")));
+    }
   }
 
   // Future<List<PostsModel>> getPostApi() async {

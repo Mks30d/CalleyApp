@@ -1,4 +1,5 @@
 import 'package:calley_app/screens/signup_screen.dart';
+import 'package:calley_app/services/api_service.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,7 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final otpController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +105,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       print("clicked");
+                      apiService.onGenerateOtp(emailController.text, context);
                     },
                   text: ' Resend OTP',
                   style: TextStyle(
