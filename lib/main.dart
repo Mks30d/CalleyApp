@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calley App',
       debugShowCheckedModeBanner: false,
-      home: DashboardScreen(),
+      home: SignupScreen(),
     );
   }
 }

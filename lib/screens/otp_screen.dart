@@ -1,3 +1,4 @@
+import 'package:calley_app/screens/signup_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       bottomNavigationBar: CustomButton(
         name: "Verify",
         btnFunction: () {
@@ -57,7 +59,7 @@ class _OtpScreenState extends State<OtpScreen> {
             'Verification',
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 11,),
+          SizedBox(height: 11),
           const Text(
             'Please ensure that the email id mentioned is valid',
             style: TextStyle(color: Color(0xFF818181)),
@@ -89,8 +91,8 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
             ),
           ),
-          Text("7897777777"),
-          SizedBox(height: 80,),
+          Text(mobileController.text),
+          SizedBox(height: 80),
           Spacer(),
           RichText(
             text: TextSpan(

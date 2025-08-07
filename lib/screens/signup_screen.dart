@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:calley_app/screens/otp_screen.dart';
 import 'package:calley_app/utils/utils.dart';
 import 'package:calley_app/widgets/custom_button.dart';
 import 'package:calley_app/widgets/custom_textfield.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../services/api_service.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -11,32 +15,67 @@ class SignupScreen extends StatefulWidget {
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
+final mobileController = TextEditingController(text: "1234567890");
+
 class _SignupScreenState extends State<SignupScreen> {
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final nameController = TextEditingController(text: "Mks");
+  final emailController = TextEditingController(text: "mks@gmail.com");
+  final passwordController = TextEditingController(text: "123");
   final whatsappController = TextEditingController(text: "+91");
-  final mobileController = TextEditingController();
-  bool isChecked = false;
+  bool isChecked = true;
   final _formKey = GlobalKey<FormState>();
+
+  void _onSignup() async {
+    final api = ApiService();
+    final response = await api.signUp(
+      nameController.text,
+      emailController.text,
+      passwordController.text,
+    );
+    var data = jsonDecode(response.body.toString());
+
+    if (response.statusCode == 201) {
+      print(
+        "signupResponse success: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${data["message"]}"),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => OtpScreen()),
+      );
+    } else {
+      print(
+        "signupResponse error!!: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("${data["message"]}")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CustomButton(
         name: "Sign Up",
-        btnFunction: () {
+        btnFunction: () async {
           if (_formKey.currentState!.validate()) {
             if (!isChecked) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Please accept terms and conditions')),
               );
             } else {
-              print("Name: ${nameController.text}");
-              print("Email: ${emailController.text}");
-              print("Phone: ${mobileController.text}");
-              print("Password: ${passwordController.text}");
-              _formKey.currentState!.reset();
+              _onSignup();
+              // print("Name: ${nameController.text}");
+              // print("Email: ${emailController.text}");
+              // print("Phone: ${mobileController.text}");
+              // print("Password: ${passwordController.text}");
+              // _formKey.currentState!.reset();
             }
           }
           ;
@@ -188,6 +227,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         print("clicked");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => OtpScreen()),
+                        );
                       },
                     text: 'Sign In',
                     style: TextStyle(
