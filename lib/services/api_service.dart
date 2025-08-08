@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../screens/graph_screen.dart';
+
 const String baseUrl = 'https://mock-api.calleyacd.com/api';
 
 // https://mock-api.calleyacd.com/api/auth/register
@@ -77,6 +79,45 @@ class ApiService {
       headers: {'Content-Type': 'application/json'},
     );
     return response;
+  }
+
+  // -------- Fetch user data --------
+  Future<http.Response> fetchUserData(String email) {
+    final uri = Uri.parse("$baseUrl/list/6895978dbe6f7a0dd5225b9f");
+    final response = http.get(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+    );
+    return response;
+  }
+
+  // -------- onFetchUserData --------
+  void onFetchUserData(BuildContext context) async {
+    final response = await fetchUserData("univrsa.help@gmail.com");
+    debugPrint("response.statusCode: ${response.statusCode.toString()}");
+    var jsonData = null;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => GraphScreen(jsonData: jsonData)),
+    );
+    if (response.statusCode == 200) {
+      jsonData = json.decode(response.body);
+      // print("jsonData: ${jsonData}");
+      // print("jsonData: ${jsonData["calls"][0]}");
+      print("jsonData length: ${jsonData["calls"].length}");
+      print("jsonData pending: ${jsonData["pending"]}");
+      print("jsonData called: ${jsonData["called"]}");
+      print("jsonData rescheduled: ${jsonData["rescheduled"]}");
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("200"), backgroundColor: Colors.green),
+      );
+    } else {
+      print("VerifyOtpResponse error!!: ${response.statusCode}}");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("${response.statusCode}")));
+    }
   }
 
   // --------  --------

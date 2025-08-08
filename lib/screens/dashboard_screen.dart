@@ -1,8 +1,13 @@
+import 'dart:convert';
+
+import 'package:calley_app/screens/graph_screen.dart';
 import 'package:calley_app/widgets/custom_bottom_navbar.dart';
 import 'package:calley_app/widgets/custom_drawer.dart';
 import 'package:calley_app/widgets/custom_ui.dart';
+import 'package:calley_app/widgets/show_calling_List_modal.dart';
 import 'package:flutter/material.dart';
 
+import '../services/api_service.dart';
 import '../utils/utils.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -105,7 +110,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
           Spacer(),
 
-          customBottomNavBar(MediaQuery.of(context).size.width * .7),
+          // star calling now
+          customCallingNavBar(MediaQuery.of(context).size.width * .7, () {
+            showCallingListModal(context);
+          }),
         ],
       ),
     );

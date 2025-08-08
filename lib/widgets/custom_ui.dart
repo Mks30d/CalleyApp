@@ -33,7 +33,7 @@ Widget profileCard(String title, String subtitle) {
 
 ///////////////////////////////////////////////////////
 
-Widget customBottomNavBar(double width) {
+Widget customCallingNavBar(double width, Function() btnFunction) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(11, 8, 11, 20),
     child: Row(
@@ -54,7 +54,7 @@ Widget customBottomNavBar(double width) {
         ),
         // CustomButton(name: "Star Calling Now"),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: btnFunction,
           child: Text("Star Calling Now"),
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor,

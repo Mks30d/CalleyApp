@@ -10,8 +10,8 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: customBottomNavBar(
-        MediaQuery.of(context).size.width * .7,
+      bottomNavigationBar: customCallingNavBar(
+        MediaQuery.of(context).size.width * .7, () {},
       ),
       body: Column(
         children: [
