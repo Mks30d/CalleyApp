@@ -13,7 +13,7 @@ const String baseUrl = 'https://mock-api.calleyacd.com/api';
 // https://mock-api.calleyacd.com/api/list?userId=68626f9497757cb741f449b0
 
 class ApiService {
-  // User signup
+  // -------- User signup --------
   Future<http.Response> signUp(
     String name,
     String email,
@@ -32,7 +32,7 @@ class ApiService {
     return response;
   }
 
-  // Generate OTP
+  // -------- Generate OTP --------
   Future<http.Response> generateOtp(String email) {
     final uri = Uri.parse("$baseUrl/auth/send-otp");
     final response = http.post(
@@ -68,6 +68,18 @@ class ApiService {
     }
   }
 
+  // -------- Verify OTP --------
+  Future<http.Response> verifyOtp(String email, String otp) {
+    final uri = Uri.parse("$baseUrl/auth/verify-otp");
+    final response = http.post(
+      uri,
+      body: json.encode({'email': email, 'otp': otp}),
+      headers: {'Content-Type': 'application/json'},
+    );
+    return response;
+  }
+
+  // --------  --------
   // Future<List<PostsModel>> getPostApi() async {
   //   final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
   //   final response = await http.get(uri);

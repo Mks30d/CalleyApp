@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:calley_app/screens/onboarding_screen.dart';
 import 'package:calley_app/screens/signup_screen.dart';
 import 'package:calley_app/services/api_service.dart';
 import 'package:flutter/gestures.dart';
@@ -19,6 +22,37 @@ class _OtpScreenState extends State<OtpScreen> {
   final _formKey = GlobalKey<FormState>();
   final apiService = ApiService();
 
+  void _onVerifyOtp() async {
+    final response = await apiService.verifyOtp(
+      emailController.text,
+      otpController.text,
+    );
+    var data = jsonDecode(response.body.toString());
+
+    if (response.statusCode == 200) {
+      print(
+        "VerifyOtpResponse success: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${data["message"]}"),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OnboardingScreen()),
+      );
+    } else {
+      print(
+        "VerifyOtpResponse error!!: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("${data["message"]}")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,16 +60,9 @@ class _OtpScreenState extends State<OtpScreen> {
       bottomNavigationBar: CustomButton(
         name: "Verify",
         btnFunction: () {
-          // if (_formKey.currentState!.validate()) {
-          //   if (true) {
-          //     ScaffoldMessenger.of(context).showSnackBar(
-          //       SnackBar(content: Text('Please accept terms and conditions')),
-          //     );
-          //   } else {
-          //     print("Password: ${passwordController.text}");
-          //     _formKey.currentState!.reset();
-          //   }
-          // };
+          if (_formKey.currentState!.validate()) {
+            _onVerifyOtp();
+          }
         },
       ),
       body: Column(
