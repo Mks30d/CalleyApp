@@ -1,25 +1,58 @@
 import 'package:calley_app/widgets/custom_button.dart';
 import 'package:calley_app/widgets/custom_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../utils/utils.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final videoUrl = "https://www.youtube.com/watch?v=g4Hbz2jLxvQ";
+  late YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    final videoId = YoutubePlayer.convertUrlToId(videoUrl);
+
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId!,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        // mute: false,
+        enableCaption: false,
+      ),
+    );
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: customCallingNavBar(
-        MediaQuery.of(context).size.width * .7, () {},
+        MediaQuery.of(context).size.width * .7,
+        () {},
       ),
       body: Column(
         children: [
+          SizedBox(height: 60,),
           profileCard("Hello Swati", "Calley Personal"),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 300,
+              height: 280,
               decoration: BoxDecoration(
                 color: tertiaryColor,
                 borderRadius: BorderRadius.circular(22),
@@ -45,11 +78,29 @@ class OnboardingScreen extends StatelessWidget {
                     ],
                   ),
 
-                  Container(
-                    height: 220,
-                    decoration: BoxDecoration(
-                      color: Colors.white30,
-                      borderRadius: BorderRadius.circular(22),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(22),
+                    child: Container(
+                      // height: 220,
+                      // width: 310,
+                      decoration: BoxDecoration(
+                        color: Colors.white30,
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                      child: YoutubePlayer(
+                        controller: _controller,
+                        showVideoProgressIndicator: true,
+
+                        onReady: () {
+                          debugPrint("Ready");
+                          // _controller.addListener(listener);
+                        },
+                        bottomActions: [
+                          CurrentPosition(),
+                          ProgressBar(isExpanded: true),
+                          FullScreenButton(),
+                        ],
+                      ),
                     ),
                   ),
                 ],
