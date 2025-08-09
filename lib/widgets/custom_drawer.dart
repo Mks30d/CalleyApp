@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/login_screen.dart';
+
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,12 +17,12 @@ class CustomDrawer extends StatelessWidget {
             ),
             accountName: Row(
               children: [
-                Text("Swati", style: TextStyle(fontSize: 18)),
+                Text(username, style: TextStyle(fontSize: 18)),
                 SizedBox(width: 8),
                 Text("• Personal", style: TextStyle(fontSize: 14)),
               ],
             ),
-            accountEmail: Text("swati@cstech.in"),
+            accountEmail: Text(email),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.person, color: Colors.blue, size: 30),

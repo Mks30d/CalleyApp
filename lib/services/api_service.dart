@@ -34,6 +34,17 @@ class ApiService {
     return response;
   }
 
+  // -------- User login --------
+  Future<http.Response> logIn(String email, String password) async {
+    final uri = Uri.parse('$baseUrl/auth/login');
+    final response = http.post(
+      uri,
+      body: json.encode({'email': email, 'password': password}),
+      headers: {'Content-Type': 'application/json'},
+    );
+    return response;
+  }
+
   // -------- Generate OTP --------
   Future<http.Response> generateOtp(String email) {
     final uri = Uri.parse("$baseUrl/auth/send-otp");

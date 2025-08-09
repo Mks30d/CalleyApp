@@ -1,3 +1,4 @@
+import 'package:calley_app/screens/login_screen.dart';
 import 'package:calley_app/widgets/custom_button.dart';
 import 'package:calley_app/widgets/custom_ui.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +48,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 60,),
-          profileCard("Hello Swati", "Calley Personal"),
+          SizedBox(height: 60),
+          profileCard("Hello $username", "Calley Personal"),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

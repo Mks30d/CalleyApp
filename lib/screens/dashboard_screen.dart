@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:calley_app/screens/graph_screen.dart';
+import 'package:calley_app/screens/login_screen.dart';
 import 'package:calley_app/widgets/custom_bottom_navbar.dart';
 import 'package:calley_app/widgets/custom_drawer.dart';
 import 'package:calley_app/widgets/custom_ui.dart';
@@ -35,7 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: CustomBottomNavBar(),
       body: Column(
         children: [
-          profileCard("Hello Swati", "Welcome to Calley!"),
+          profileCard("Hello $username", "Welcome to Calley!"),
           Spacer(),
           Padding(
             padding: const EdgeInsets.all(8.0),
