@@ -31,8 +31,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
       drawer: CustomDrawer(),
+      bottomNavigationBar: CustomBottomNavBar(),
       body: Column(
         children: [
           profileCard("Hello Swati", "Welcome to Calley!"),

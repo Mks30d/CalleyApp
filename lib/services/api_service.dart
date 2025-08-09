@@ -82,7 +82,7 @@ class ApiService {
   }
 
   // -------- Fetch user data --------
-  Future<http.Response> fetchUserData(String email) {
+  Future<http.Response> fetchListDetails(String email) {
     final uri = Uri.parse("$baseUrl/list/6895978dbe6f7a0dd5225b9f");
     final response = http.get(
       uri,
@@ -92,8 +92,8 @@ class ApiService {
   }
 
   // -------- onFetchUserData --------
-  void onFetchUserData(BuildContext context) async {
-    final response = await fetchUserData("univrsa.help@gmail.com");
+  void onFetchListDetails(BuildContext context) async {
+    final response = await fetchListDetails("univrsa.help@gmail.com");
     debugPrint("response.statusCode: ${response.statusCode.toString()}");
     var jsonData = null;
     Navigator.push(

@@ -2,6 +2,7 @@ import 'package:calley_app/screens/graph_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../services/api_service.dart';
+
 final apiService = ApiService();
 
 void showCallingListModal(BuildContext context) {
@@ -81,7 +82,7 @@ void showCallingListModal(BuildContext context) {
             // Test List item
             GestureDetector(
               // onTap: btnFunction,
-              onTap: () => apiService.onFetchUserData(context),
+              onTap: () => apiService.onFetchListDetails(context),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 decoration: BoxDecoration(
