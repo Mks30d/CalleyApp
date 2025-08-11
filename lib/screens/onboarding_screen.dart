@@ -1,3 +1,4 @@
+import 'package:calley_app/screens/dashboard_screen.dart';
 import 'package:calley_app/screens/login_screen.dart';
 import 'package:calley_app/widgets/custom_button.dart';
 import 'package:calley_app/widgets/custom_ui.dart';
@@ -42,9 +43,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondaryColor,
       bottomNavigationBar: customCallingNavBar(
         MediaQuery.of(context).size.width * .7,
-        () {},
+        () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => DashboardScreen()),
+          );
+        },
       ),
       body: Column(
         children: [
@@ -99,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         bottomActions: [
                           CurrentPosition(),
                           ProgressBar(isExpanded: true),
-                          FullScreenButton(),
+                          // FullScreenButton(),
                         ],
                       ),
                     ),

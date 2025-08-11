@@ -22,7 +22,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondaryColor,
       appBar: AppBar(
+        backgroundColor: secondaryColor,
         title: Text("Dashboard"),
         actions: [
           Icon(Icons.headset_mic_outlined),
@@ -37,7 +39,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Column(
         children: [
           profileCard("Hello $username", "Welcome to Calley!"),
+
           Spacer(),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

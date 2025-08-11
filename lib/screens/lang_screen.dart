@@ -1,6 +1,10 @@
+import 'package:calley_app/screens/login_screen.dart';
+import 'package:calley_app/screens/signup_screen.dart';
 import 'package:calley_app/utils/utils.dart';
 import 'package:calley_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+
+import 'onboarding_screen.dart';
 
 class LangScreen extends StatefulWidget {
   const LangScreen({super.key});
@@ -28,7 +32,17 @@ class _LangScreenState extends State<LangScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: greyShadeColor,
+      bottomNavigationBar: CustomButton(
+        name: "Select",
+        btnFunction: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => SignupScreen()),
+          );
+        },
+      ),
       appBar: AppBar(
+        backgroundColor: greyShadeColor,
         title: Text('Choose Your Language', style: TextStyle(fontSize: 20)),
         centerTitle: true,
       ),

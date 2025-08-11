@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:calley_app/screens/login_screen.dart';
 import 'package:calley_app/screens/otp_screen.dart';
 import 'package:calley_app/utils/utils.dart';
 import 'package:calley_app/widgets/custom_button.dart';
@@ -15,54 +16,21 @@ class SignupScreen extends StatefulWidget {
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
-final mobileController = TextEditingController(text: "1234567890");
-final emailController = TextEditingController(text: "mks@gmail.com");
+final mobileController = TextEditingController(text: "");
+final emailController = TextEditingController(text: "");
 
 class _SignupScreenState extends State<SignupScreen> {
-  final nameController = TextEditingController(text: "Mks");
-  final passwordController = TextEditingController(text: "123");
+  final nameController = TextEditingController(text: "");
+  final passwordController = TextEditingController(text: "");
   final whatsappController = TextEditingController(text: "+91");
-  bool isChecked = true;
+  bool isChecked = false;
   final _formKey = GlobalKey<FormState>();
   final apiService = ApiService();
-
-  void _onSignup() async {
-    final response = await apiService.signUp(
-      nameController.text,
-      emailController.text,
-      passwordController.text,
-    );
-    var data = jsonDecode(response.body.toString());
-
-    if (response.statusCode == 201) {
-      print(
-        "signupResponse success: ${response.statusCode} - ${data["message"]}",
-      );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("${data["message"]}"),
-          backgroundColor: Colors.green,
-        ),
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => OtpScreen()),
-      );
-    } else {
-      print(
-        "signupResponse error!!: ${response.statusCode} - ${data["message"]}",
-      );
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("${data["message"]}")));
-    }
-    // _onGenerateOtp();
-    apiService.onGenerateOtp(emailController.text, context);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: greyShadeColor,
       bottomNavigationBar: CustomButton(
         name: "Sign Up",
         btnFunction: () async {
@@ -87,16 +55,21 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Column(
           children: [
             Container(
-              height: 120,
+              height: 130,
+              width: MediaQuery.sizeOf(context).width*1,
+              padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
               decoration: BoxDecoration(
-                color: greyShadeColor,
+                color: secondaryColor,
                 border: Border(bottom: BorderSide(color: Colors.grey)),
               ),
               child: Transform.scale(
                 scale: 0.9,
-                child: Image(image: AssetImage("lib/assets/logo1.png")),
+                child: Center(child: Image(image: AssetImage("lib/assets/logo1.png"))),
               ),
             ),
+
+            SizedBox(height: 22,),
+
             const Text(
               'Welcome!',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -151,20 +124,20 @@ class _SignupScreenState extends State<SignupScreen> {
                         return null;
                       },
                     ),
-                    CustomTextfield(
-                      labelText: "",
-                      suffixIcon: Icons.message_outlined,
-                      controller: whatsappController,
-                      focus: false,
-                      // validator: (value) {
-                      //   if (value == null || value.trim().isEmpty) {
-                      //     return 'Enter phone number';
-                      //   } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                      //     return 'Enter a valid 10-digit phone number';
-                      //   }
-                      //   return null;
-                      // },
-                    ),
+                    // CustomTextfield(
+                    //   labelText: "",
+                    //   suffixIcon: Icons.message_outlined,
+                    //   controller: whatsappController,
+                    //   focus: false,
+                    //   // validator: (value) {
+                    //   //   if (value == null || value.trim().isEmpty) {
+                    //   //     return 'Enter phone number';
+                    //   //   } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                    //   //     return 'Enter a valid 10-digit phone number';
+                    //   //   }
+                    //   //   return null;
+                    //   // },
+                    // ),
                     CustomTextfield(
                       labelText: "Mobile Number",
                       suffixIcon: Icons.phone_android_outlined,
@@ -218,8 +191,27 @@ class _SignupScreenState extends State<SignupScreen> {
                 Spacer(),
               ],
             ),
-            // Spacer(),
-            SizedBox(height: 8),
+
+            SizedBox(height: 5),
+
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => OtpScreen()),
+                );
+              },
+              child: Text(
+                "Verify OTP",
+                style: TextStyle(
+                  color: primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            SizedBox(height: 5),
+
             RichText(
               text: TextSpan(
                 text: 'Already have an account? ',
@@ -229,9 +221,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         print("clicked");
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => OtpScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => LoginScreen(),
+                          ),
                         );
                       },
                     text: 'Sign In',
@@ -247,5 +241,40 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  // --------- _onVerifyOtp ----------
+  void _onSignup() async {
+    final response = await apiService.signUp(
+      nameController.text,
+      emailController.text,
+      passwordController.text,
+    );
+    var data = jsonDecode(response.body.toString());
+
+    if (response.statusCode == 201) {
+      print(
+        "signupResponse success: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${data["message"]}"),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OtpScreen()),
+      );
+    } else {
+      print(
+        "signupResponse error!!: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("${data["message"]}")));
+    }
+    // _onGenerateOtp();
+    apiService.onGenerateOtp(emailController.text, context);
   }
 }

@@ -107,7 +107,7 @@ class ApiService {
     final response = await fetchListDetails("univrsa.help@gmail.com");
     debugPrint("response.statusCode: ${response.statusCode.toString()}");
     var jsonData = null;
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => GraphScreen(jsonData: jsonData)),
     );
@@ -119,15 +119,11 @@ class ApiService {
       print("jsonData pending: ${jsonData["pending"]}");
       print("jsonData called: ${jsonData["called"]}");
       print("jsonData rescheduled: ${jsonData["rescheduled"]}");
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("200"), backgroundColor: Colors.green),
-      );
     } else {
-      print("VerifyOtpResponse error!!: ${response.statusCode}}");
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("${response.statusCode}")));
+      print("FetchListDetails error!!: ${response.statusCode}}");
+      // ScaffoldMessenger.of(
+      //   context,
+      // ).showSnackBar(SnackBar(content: Text("Error: ${response.statusCode}")));
     }
   }
 

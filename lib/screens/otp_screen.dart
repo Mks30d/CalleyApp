@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:calley_app/screens/login_screen.dart';
 import 'package:calley_app/screens/onboarding_screen.dart';
 import 'package:calley_app/screens/signup_screen.dart';
 import 'package:calley_app/services/api_service.dart';
@@ -22,41 +23,11 @@ class _OtpScreenState extends State<OtpScreen> {
   final _formKey = GlobalKey<FormState>();
   final apiService = ApiService();
 
-  void _onVerifyOtp() async {
-    final response = await apiService.verifyOtp(
-      emailController.text,
-      otpController.text,
-    );
-    var data = jsonDecode(response.body.toString());
-
-    if (response.statusCode == 200) {
-      print(
-        "VerifyOtpResponse success: ${response.statusCode} - ${data["message"]}",
-      );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("${data["message"]}"),
-          backgroundColor: Colors.green,
-        ),
-      );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => OnboardingScreen()),
-      );
-    } else {
-      print(
-        "VerifyOtpResponse error!!: ${response.statusCode} - ${data["message"]}",
-      );
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("${data["message"]}")));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: greyShadeColor,
+      // appBar: AppBar(backgroundColor: secondaryColor),
       bottomNavigationBar: CustomButton(
         name: "Verify",
         btnFunction: () {
@@ -68,27 +39,29 @@ class _OtpScreenState extends State<OtpScreen> {
       body: Column(
         children: [
           Container(
-            height: 120,
+            height: 130,
+            width: MediaQuery.sizeOf(context).width * 1,
+            padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
             decoration: BoxDecoration(
-              color: greyShadeColor,
+              color: secondaryColor,
               border: Border(bottom: BorderSide(color: Colors.grey)),
             ),
             child: Transform.scale(
               scale: 0.9,
-              child: Image(image: AssetImage("lib/assets/logo1.png")),
+              child: Center(
+                child: Image(image: AssetImage("lib/assets/logo1.png")),
+              ),
             ),
           ),
 
           Spacer(),
           const Text(
-            'Whatsapp OTP',
+            'Email OTP Verification',
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
-          const Text(
-            'Verification',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
+
           SizedBox(height: 11),
+
           const Text(
             'Please ensure that the email id mentioned is valid',
             style: TextStyle(color: Color(0xFF818181)),
@@ -98,7 +71,7 @@ class _OtpScreenState extends State<OtpScreen> {
             style: TextStyle(color: Color(0xFF818181)),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 8, 15, 11),
+            padding: const EdgeInsets.fromLTRB(15, 8, 15, 0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -107,11 +80,11 @@ class _OtpScreenState extends State<OtpScreen> {
                   const SizedBox(height: 10),
                   CustomTextfield(
                     labelText: "Enter OTP",
-                    suffixIcon: Icons.lock_outline,
+                    suffixIcon: Icons.dialpad_outlined,
                     controller: otpController,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Enter password';
+                        return 'Enter OTP';
                       }
                       return null;
                     },
@@ -120,7 +93,21 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
             ),
           ),
-          Text(mobileController.text),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(emailController.text, style: TextStyle(fontSize: 15)),
+              IconButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignupScreen()),
+                  );
+                },
+                icon: Text("Edit", style: TextStyle(color: primaryColor)),
+              ),
+            ],
+          ),
           SizedBox(height: 80),
           Spacer(),
           RichText(
@@ -146,5 +133,37 @@ class _OtpScreenState extends State<OtpScreen> {
         ],
       ),
     );
+  }
+
+  // --------- _onVerifyOtp ----------
+  void _onVerifyOtp() async {
+    final response = await apiService.verifyOtp(
+      emailController.text,
+      otpController.text,
+    );
+    var data = jsonDecode(response.body.toString());
+
+    if (response.statusCode == 200) {
+      print(
+        "VerifyOtpResponse success: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${data["message"]}"),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    } else {
+      print(
+        "VerifyOtpResponse error!!: ${response.statusCode} - ${data["message"]}",
+      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("${data["message"]}")));
+    }
   }
 }
