@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:calley_app/models/list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -103,22 +104,19 @@ class ApiService {
   }
 
   // -------- onFetchUserData --------
-  void onFetchListDetails(BuildContext context) async {
+  Future<ListModel?> onFetchListDetails(BuildContext context) async {
     final response = await fetchListDetails("univrsa.help@gmail.com");
     debugPrint("response.statusCode: ${response.statusCode.toString()}");
-    var jsonData = null;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => GraphScreen(jsonData: jsonData)),
-    );
+    Map<String, dynamic> jsonData;
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => GraphScreen(jsonData: jsonData)),
+    // );
     if (response.statusCode == 200) {
-      jsonData = json.decode(response.body);
-      // print("jsonData: ${jsonData}");
-      // print("jsonData: ${jsonData["calls"][0]}");
-      print("jsonData length: ${jsonData["calls"].length}");
-      print("jsonData pending: ${jsonData["pending"]}");
-      print("jsonData called: ${jsonData["called"]}");
-      print("jsonData rescheduled: ${jsonData["rescheduled"]}");
+      // jsonData = json.decode(response.body); // or
+      jsonData = json.decode(response.body) as Map<String, dynamic>;
+      // ListModel listModel = ListModel.fromJson(jsonData);
+      return ListModel.fromJson(jsonData);
     } else {
       print("FetchListDetails error!!: ${response.statusCode}}");
       // ScaffoldMessenger.of(
@@ -127,7 +125,8 @@ class ApiService {
     }
   }
 
-  // --------  --------
+
+  // -------- ========== --------
   // Future<List<PostsModel>> getPostApi() async {
   //   final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
   //   final response = await http.get(uri);

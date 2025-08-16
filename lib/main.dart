@@ -1,6 +1,7 @@
 import 'package:calley_app/screens/dashboard_screen.dart';
 import 'package:calley_app/screens/lang_screen.dart';
 import 'package:calley_app/screens/signup_screen.dart';
+import 'package:calley_app/services/fetch_data.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Calley App',
       debugShowCheckedModeBanner: false,
       // home: GraphScreen(jsonData: null),
-      home: LangScreen(),
+      home: FetchData(),
     );
   }
 }
